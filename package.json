@@ -1,5 +1,5 @@
 {
-  "name": "template",
+  "name": "NSSfacebookish",
   "version": "0.0.0",
   "description": "Node.js/Express Template",
   "main": "app/index.js",
@@ -22,14 +22,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nss-cohort-2014-06-07/template"
+    "url": "https://github.com/rtmalone/nss-facebookish"
   },
-  "author": "Chyld Medford <chyld.medford@gmail.com>",
+  "author": "Tyler Malone <rtylermalone@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nss-cohort-2014-06-07/template/issues"
+    "url": "https://github.com/rtmalone/nss-facebookish/issues"
   },
-  "homepage": "https://github.com/nss-cohort-2014-06-07/template",
+  "homepage": "https://github.com/rtmalone/nss-facebookish",
   "dependencies": {
     "async": "^0.9.0",
     "bcrypt": "^0.8.0",
