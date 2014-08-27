@@ -11,6 +11,19 @@ Object.defineProperty(User, 'collection', {
   get: function(){return global.mongodb.collection('users');}
 });
 
+User.authenticate = function(o, cb){
+  User.collection.findOne({email:o.email}, function(err, user){
+    if(!user){return cb();}
+    var isOk = bcrypt.compareSync(o.password, user.password);
+    if(!isOk){return cb();}
+    cb(user);
+  });
+};
+
+User.find = function(filter, cb){
+  User.collection.find(filter).toArray(cb);
+};
+
 User.findById = function(id, cb){
   var _id = Mongo.ObjectID(id);
   User.collection.findOne({_id:_id}, function(err, obj){
@@ -18,20 +31,15 @@ User.findById = function(id, cb){
   });
 };
 
+User.findOne = function(filter, cb){
+  User.collection.findOne(filter, cb);
+};
+
 User.register = function(o, cb){
   User.collection.findOne({email:o.email}, function(err, user){
     if(user){return cb();}
     o.password = bcrypt.hashSync(o.password, 10);
     User.collection.save(o, cb);
-  });
-};
-
-User.authenticate = function(o, cb){
-  User.collection.findOne({email:o.email}, function(err, user){
-    if(!user){return cb();}
-    var isOk = bcrypt.compareSync(o.password, user.password);
-    if(!isOk){return cb();}
-    cb(user);
   });
 };
 
@@ -51,7 +59,29 @@ User.prototype.save = function(o, cb){
   User.collection.save(this, cb);
 };
 
-User.find = function(filter, cb){
-  User.collection.find(filter).toArray(cb);
+User.prototype.send = function(receiver, message, cb){
+  switch(message.mtype){
+    case 'text':
+      sendText(receiver.phone, message.message, cb);
+      break;
+    case 'email':
+      break;
+    case 'internal':
+  }
 };
+
+
 module.exports = User;
+
+
+function sendText(to, body, cb){
+  var accountSid = 'AC41a286f10c8f6ca4663acf2b8e184339',
+      authToken  = process.env.TWILIO,
+      client = require('twilio')(accountSid, authToken);
+
+  client.messages.create({
+    to: to,
+    from: '+12192274448',
+    body: body
+  }, cb);
+}
