@@ -51,5 +51,7 @@ User.prototype.save = function(o, cb){
   User.collection.save(this, cb);
 };
 
-
+User.find = function(filter, cb){
+  User.collection.find(filter).toArray(cb);
+};
 module.exports = User;

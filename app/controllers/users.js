@@ -17,6 +17,9 @@ exports.authenticate = function(req, res){
   });
 };
 
+exports.client = function(req, res){
+};
+
 exports.create = function(req, res){
   User.register(req.body, function(err, user){
     if(user){
@@ -45,8 +48,18 @@ exports.new = function(req, res){
   res.render('users/new');
 };
 
+exports.show = function(req, res){
+  res.render('users/show');
+};
+
 exports.update = function(req, res){
   res.locals.user.save(req.body, function(){
     res.redirect('/profile');
+  });
+};
+
+exports.index = function(req, res){
+  User.find({isVisible:true}, function(err, users){
+    res.render('users/index', {users:users});
   });
 };

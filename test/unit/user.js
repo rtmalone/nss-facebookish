@@ -42,4 +42,12 @@ describe('User', function(){
       });
     });
   });
+
+  describe('.find', function(){
+    it('should find users who are public', function(){
+      User.find({isVisible:true}, function(err, users){
+        expect(users).to.have.length(2);
+      });
+    });
+  });
 });
