@@ -2,7 +2,7 @@
 
 'use strict';
 
-process.env.DB   = 'template-test';
+process.env.DB   = 'facebookish-test';
 
 var expect  = require('chai').expect,
     cp      = require('child_process'),
@@ -59,15 +59,13 @@ describe('users', function(){
     it('should edit the profile page', function(done){
       request(app)
       .get('/profile')
-      .send()
+      .send('_method=put&visible=private&email=bob%40aol.com&phone=123456789&photo=photourl&tagline=so+cool&facebook=facebookurl&twitter=twitterurl')
       .set('cookie', cookie)
       .end(function(err, res){
-        expect(res.status).to.equal(200);
-        expect(res.text).to.include('Email');
-        expect(res.text).to.include('Phone');
-        expect(res.text).to.include('Public');
-        expect(res.text).to.include('bob@aol.com');
+        expect(res.status).to.equal(302);
+        expect(res.headers.location).to.equal('/profile');
         done();
       });
     });
+  });
 });

@@ -44,3 +44,9 @@ exports.logout = function(req, res){
 exports.new = function(req, res){
   res.render('users/new');
 };
+
+exports.update = function(req, res){
+  res.locals.user.save(req.body, function(){
+    res.redirect('/profile');
+  });
+};
