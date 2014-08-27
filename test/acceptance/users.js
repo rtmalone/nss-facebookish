@@ -39,5 +39,35 @@ describe('users', function(){
       });
     });
   });
-});
 
+  describe('get /profile/edit', function(){
+    it('should show the profile page', function(done){
+      request(app)
+      .get('/profile/edit')
+      .set('cookie', cookie)
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('Email');
+        expect(res.text).to.include('Phone');
+        expect(res.text).to.include('Public');
+        expect(res.text).to.include('bob@aol.com');
+        done();
+      });
+    });
+  });
+  describe('put /profile', function(){
+    it('should edit the profile page', function(done){
+      request(app)
+      .get('/profile')
+      .send()
+      .set('cookie', cookie)
+      .end(function(err, res){
+        expect(res.status).to.equal(200);
+        expect(res.text).to.include('Email');
+        expect(res.text).to.include('Phone');
+        expect(res.text).to.include('Public');
+        expect(res.text).to.include('bob@aol.com');
+        done();
+      });
+    });
+});
